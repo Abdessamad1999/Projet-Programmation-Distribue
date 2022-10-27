@@ -1,0 +1,14 @@
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+       <li class="nav-item"> <a (click)="active('#link1')" id="link1" class="nav-link" routerLink="/etablissements"> <i class="bi bi-grid"></i> <span>Etablissements</span> </a></li>
+       <li class="nav-item"> <a (click)="active('#link2')" id="link2" class="nav-link collapsed" routerLink="/filieres"> <i class="bi bi-signpost-2"></i> <span>Filieres</span> </a></li>
+       <li class="nav-item"> <a (click)="active('#link3')" id="link3" class="nav-link collapsed" routerLink="/planningExamens"> <i class="bi bi-calendar-week"></i> <span>Planning des exames</span> </a></li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" (click)="active('#link4')" id="link4" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#"> <i class="bi bi-journal-text"></i><span>Journal</span><i class="bi bi-chevron-down ms-auto"></i> </a>
+        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li> <a routerLink="/journalistes"> <i class="bi bi-circle"></i><span>Journalistes</span> </a></li>
+          <li> <a routerLink="/articles"> <i class="bi bi-circle"></i><span>Articles</span> </a></li>
+        </ul>
+      </li>
+    </ul>
+ </aside>
