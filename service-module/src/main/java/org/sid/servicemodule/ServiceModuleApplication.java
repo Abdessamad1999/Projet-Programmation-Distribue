@@ -23,17 +23,17 @@ public class ServiceModuleApplication {
                             RepositoryRestConfiguration restConfiguration){
         restConfiguration.exposeIdsFor(Module.class);
         return args -> {
-//            Module module1 = moduleRepository.save(new Module(null,"Machine Learning",10L,4,1L,null));
-//            Module module2 = moduleRepository.save(new Module(null,"Deep Learning",10L,4,1L,null));
-//            Module module3 = moduleRepository.save(new Module(null,"RC",10L,4,2L,null));
-//
-//
-//            elementRepository.save(new Element(null,"TP ML",2,module1));
-//
-//            elementRepository.save(new Element(null,"Cours DL",2,module2));
-//            elementRepository.save(new Element(null,"TP DL",2,module2));
-//
-//            elementRepository.save(new Element(null,"Cours RC",2,module3));
+            Module module1 = moduleRepository.save(new Module(null,"Machine Learning",10L,4,1L,null));
+            Module module2 = moduleRepository.save(new Module(null,"Deep Learning",10L,4,1L,null));
+            Module module3 = moduleRepository.save(new Module(null,"RC",10L,4,2L,null));
+
+
+            elementRepository.save(new Element(null,"TP ML",2,module1));
+
+            elementRepository.save(new Element(null,"Cours DL",2,module2));
+            elementRepository.save(new Element(null,"TP DL",2,module2));
+
+            elementRepository.save(new Element(null,"Cours RC",2,module3));
         };
     }
 }

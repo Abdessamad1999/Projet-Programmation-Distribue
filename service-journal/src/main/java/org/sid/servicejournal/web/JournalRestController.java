@@ -5,8 +5,9 @@ import org.sid.servicejournal.entities.Journaliste;
 import org.sid.servicejournal.repositories.ArticleRepository;
 import org.sid.servicejournal.repositories.JournalisteRepository;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Collection;
 
 @RestController
@@ -20,56 +21,45 @@ public class JournalRestController {
         this.articleRepository = articleRepository;
     }
 
-    @PostMapping("/ajouterJournaliste")
-    public void insertJournaliste(@RequestParam String nom, @RequestParam String prenom,
-                                  @RequestParam String email, @RequestParam String profil){
-        Journaliste j = new Journaliste();
-        j.setNom(nom);
-        j.setPrenom(prenom);
-        j.setEmail(email);
-        j.setProfil(profil);
-
-        journalisteRepository.save(j);
+    @GetMapping("/journalistes")
+    public Collection<Journaliste> getAllJournaliste(){
+        return journalisteRepository.findAll();
     }
 
-    @GetMapping("/articles/{id}")
+    @PostMapping("/ajouterJournaliste")
+    public Journaliste insertJournaliste(@RequestBody Journaliste journaliste){
+        return journalisteRepository.save(journaliste);
+    }
+
+    @PutMapping("/modifieJournaliste")
+    public Journaliste editArticle(@RequestBody Journaliste journaliste){
+        return journalisteRepository.save(journaliste);
+    }
+
+    @GetMapping("/articles/idJournaliste/{id}")
     public Collection<Article> getArticles(@PathVariable Long id){
-        Collection<Article> articles = new ArrayList<Article>();
-        if(id == null) {
-            articles = articleRepository.findAll();
-        }else{
-            articles = articleRepository.findAllByJournalisteId(id);
-        }
-        return articles;
+        return articleRepository.findAllByJournalisteId(id);
     }
 
     @PostMapping("/ajouterArticle")
-    public void insertArticle(@RequestParam String titre, @RequestParam String contenu,
-                              @RequestParam String auteurs,@RequestParam Long id){
-        Article a = new Article();
-        a.setTitre(titre);
-        a.setContenu(contenu);
-        a.setAuteurs(auteurs);
-        Journaliste j = new Journaliste();
-        j.setId(id);
-        a.setJournaliste(j);
-
-        articleRepository.save(a);
+    public Article insertArticle(@RequestBody Article article){
+        return articleRepository.save(article);
     }
 
-    @PostMapping("/modifieArticle")
-    public void editArticle(@RequestParam String titre, @RequestParam String contenu,
-                            @RequestParam String auteurs,@RequestParam Long idArticle){
-        Article a = articleRepository.findById(idArticle).get();
-        a.setTitre(titre);
-        a.setAuteurs(auteurs);
-        a.setContenu(contenu);
-
-        articleRepository.save(a);
+    @PutMapping("/uploadArticle/{id}")
+    public Article uploadArticle(@PathVariable("id") Long id, @RequestParam("contenuArticle") MultipartFile contenuArticle) throws IOException {
+        Article article = articleRepository.findById(id).get();
+        article.setContenu(contenuArticle.getBytes());
+        return articleRepository.save(article);
     }
 
-    @PostMapping("/supprimerArticle")
-    public void deletArticle(@RequestParam Long id){
+    @PutMapping("/modifieArticle")
+    public Article editArticle(@RequestBody Article article){
+        return articleRepository.save(article);
+    }
+
+    @DeleteMapping("/supprimerArticle/")
+    public void deletArticle(@PathVariable Long id){
         articleRepository.deleteById(id);
     }
 }

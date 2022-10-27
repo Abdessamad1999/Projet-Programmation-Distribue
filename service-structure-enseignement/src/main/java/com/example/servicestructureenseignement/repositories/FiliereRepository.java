@@ -8,5 +8,6 @@ import java.util.Collection;
 
 @RepositoryRestResource
 public interface FiliereRepository extends JpaRepository<Filiere,Long> {
-    Collection<Filiere> findByIdEtablissement(Long id);
+    Collection<Filiere> findByIdDepartement(Long id);
+    Filiere findFirstByNomFilier(String nomFiliere);
 }

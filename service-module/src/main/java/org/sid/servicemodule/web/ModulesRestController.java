@@ -11,7 +11,6 @@ import java.util.List;
 
 
 @RestController
-@CrossOrigin(origins="http://localhost:4200")
 public class ModulesRestController {
     private ElementRepository elementRepository;
     private ModuleRepository moduleRepository;
@@ -21,18 +20,12 @@ public class ModulesRestController {
         this.moduleRepository = moduleRepository;
     }
 
-    @GetMapping(path = "/modules")
-    public List<Module> getallModules() {
-        return moduleRepository.findAll();
-    }
-
     @GetMapping(path = "/modules/idFiliere/{id}")
     Collection<Module> getModulesByFilieresId(@PathVariable Long id){
-        Collection<Module> modules = moduleRepository.findByIdFiliere(id);
-        return modules;
+        return moduleRepository.findByIdFiliere(id);
     }
 
-    @PostMapping(path = "/modules/delet/{id}")
+    @DeleteMapping(path = "/modules/delete/{id}")
     void deletModulesByFiliereId(@PathVariable Long id){
         Collection<Module> modules = moduleRepository.findByIdFiliere(id);
         modules.forEach(m->{
@@ -42,4 +35,10 @@ public class ModulesRestController {
             moduleRepository.deleteById(m.getId());
         });
     }
+
+    /*@DeleteMapping(path = "/module/{id}")
+    void deletModule(@PathVariable Long id){
+        Module module = moduleRepository.findById(id).get();
+        module.getElements().forEach(element-> elementRepository.deleteById(element.getId()));
+    }*/
 }

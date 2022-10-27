@@ -20,14 +20,11 @@ public class ServiceStructureEnseignementApplication {
 
     @Bean
     CommandLineRunner start(FiliereRepository filiereRepository,
-                            ModuleRestClient moduleRestClient,
                             RepositoryRestConfiguration restConfiguration){
         restConfiguration.exposeIdsFor(Filiere.class);
         return args -> {
-//            filiereRepository.save(new Filiere(null,"SMI",3,6,null,null,null,1L,"Ali Bekri"));
-//            filiereRepository.save(new Filiere(null,"SMA",3,6,null,null,null,1L,"Mohamed Zitane"));
-//            filiereRepository.save(new Filiere(null,"SVT",3,6,null,null,null,2L,"Ali Bekri"));
-//            filiereRepository.save(new Filiere(null,"SVU",3,6,null,null,null,2L,"Mohamed Zitane"));
+            filiereRepository.save(new Filiere(null,"SMI",3,6,0,0,1L,"Ali Bekri",null));
+            filiereRepository.save(new Filiere(null,"SMA",3,6,0,0,1L,"Mohamed Zitane",null));
         };
     }
 

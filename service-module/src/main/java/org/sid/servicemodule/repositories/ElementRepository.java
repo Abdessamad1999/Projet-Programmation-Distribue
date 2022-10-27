@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RepositoryRestResource
-
 public interface ElementRepository extends JpaRepository<Element,Long> {
     Collection<Element> findByModuleId(Long id);
 

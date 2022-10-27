@@ -13,8 +13,8 @@ public class Article {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titre;
-    private String contenu;
-    private String auteurs;
+    private byte[] contenu;
+    private String auteur;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     private Journaliste journaliste;

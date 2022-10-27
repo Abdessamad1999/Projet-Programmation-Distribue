@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
-@CrossOrigin("*")
 public class FiliereRestController {
 
     private FiliereRepository filiereRepository;
@@ -20,9 +19,14 @@ public class FiliereRestController {
         this.moduleRestClient = moduleRestClient;
     }
 
-    @GetMapping("/{idEtab}/filieresAndModules")
-    public Collection<Filiere> getFilieresAndModulesByIdEtab(@PathVariable Long idEtab){
-        Collection<Filiere> filieres = filiereRepository.findByIdEtablissement(idEtab);
+    @GetMapping(path = "/filieres/nomFilier/{nom}")
+    Filiere getFiliereByNomFiliere(@PathVariable String nom){
+        return filiereRepository.findFirstByNomFilier(nom);
+    }
+
+    @GetMapping("/{idDep}/filieresAndModules")
+    public Collection<Filiere> getFilieresAndModulesByIdEtab(@PathVariable Long idDep){
+        Collection<Filiere> filieres = filiereRepository.findByIdDepartement(idDep);
         filieres.forEach(f->{
             Collection<Module> modules = moduleRestClient.getModulesByFilieresId(f.getId());
             f.setModules(modules);
@@ -30,14 +34,14 @@ public class FiliereRestController {
         return filieres;
     }
 
-    @GetMapping(path = "/filieres/idEtablisement/{id}")
-    Collection<Filiere> getFilieresEtablissement(@PathVariable Long id){
-        Collection<Filiere> filieres = filiereRepository.findByIdEtablissement(id);
-        return filieres;
+    @GetMapping(path = "/filieres/idDepartement/{id}")
+    Collection<Filiere> getFilieresDepartement(@PathVariable Long id){
+        return filiereRepository.findByIdDepartement(id);
     }
 
     @PostMapping("/ajouterFiliere")
     public Filiere insertFiliere(@RequestBody Filiere filiere){
+
         return filiereRepository.save(filiere);
     }
 
@@ -46,7 +50,6 @@ public class FiliereRestController {
         return filiereRepository.save(filiere);
     }
 
-    //mais ajour => module *----1 apartian *----1 filiere
     @DeleteMapping("/supprimerFilliere/{id}")
     public void deletFiliere(@PathVariable Long id){
         moduleRestClient.deletModulesByFiliereId(id);

@@ -19,7 +19,7 @@ public class Filiere {
     private int nombreSemestres;
     private int anneesDiplomante;
     private int anneesNonDiplomante;
-    private Long idEtablissement;
+    private Long idDepartement;
     private String responsableFiliere;
 
     @Transient

@@ -22,6 +22,7 @@ public class ServiceJournalApplication {
                             RepositoryRestConfiguration restConfiguration){
         restConfiguration.exposeIdsFor(Journaliste.class);
         return args -> {
+
         };
     }
 

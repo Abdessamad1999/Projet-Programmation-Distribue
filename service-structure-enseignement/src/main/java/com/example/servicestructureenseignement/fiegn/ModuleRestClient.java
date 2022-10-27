@@ -14,6 +14,6 @@ public interface ModuleRestClient {
     @GetMapping(path = "/modules/idFiliere/{id}")
     Collection<Module> getModulesByFilieresId(@PathVariable Long id);
 
-    @PostMapping(path = "/modules/delet/{idF}")
+    @PostMapping(path = "/modules/delete/{idF}")
     void deletModulesByFiliereId(@PathVariable Long idF);
 }

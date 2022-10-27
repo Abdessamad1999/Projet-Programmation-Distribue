@@ -26,7 +26,7 @@ public class PlannigExamenRestController {
         this.anneeUniversitaireRestClient = anneeUniversitaireRestClient;
     }
 
-    @GetMapping("/planningExamens")
+    @GetMapping("/PlanningExamens")
     public Collection<PlanningExamen> getPlanning(){
         Collection<PlanningExamen> ListPlanning = planningExamenRepository.findAll();
         ListPlanning.forEach(p->{
@@ -39,11 +39,10 @@ public class PlannigExamenRestController {
     @GetMapping("/downloadAvis/{id}")
     public void downloadAvisExamen(@PathVariable Long id, HttpServletResponse response) throws IOException {
         PlanningExamen p = planningExamenRepository.findById(id).get();
-        AnneeUniversitaire AU = anneeUniversitaireRestClient.getAnnee(1L);
-        p.setAnneeUniversitaire(AU);
+        AnneeUniversitaire AU = anneeUniversitaireRestClient.getAnnee(p.getIdAnneeUniversitaire());
         response.setContentType("application/octet-stream");
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Avis Examen "+p.getNomFiliere()+" "+p.getAnneeUniversitaire().getNomAnneeUniversitaire()+".pdf";
+        String headerValue = "attachment; filename=Avis Examen "+p.getNomFiliere()+" "+AU.getNomAnneeUniversitaire()+".pdf";
 
         response.setHeader(headerKey,headerValue);
 
@@ -55,16 +54,15 @@ public class PlannigExamenRestController {
     @GetMapping("/downloadPlanning/{id}")
     public void downloadPlanningExamen(@PathVariable Long id, HttpServletResponse response) throws IOException {
         PlanningExamen p = planningExamenRepository.findById(id).get();
-        AnneeUniversitaire AU = anneeUniversitaireRestClient.getAnnee(1L);
-        p.setAnneeUniversitaire(AU);
+        AnneeUniversitaire AU = anneeUniversitaireRestClient.getAnnee(p.getIdAnneeUniversitaire());
         response.setContentType("application/octet-stream");
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Planning Examen "+p.getNomFiliere()+" "+p.getAnneeUniversitaire().getNomAnneeUniversitaire()+".pdf";
+        String headerValue = "attachment; filename=Planning Examen "+p.getNomFiliere()+" "+AU.getNomAnneeUniversitaire()+".pdf";
 
         response.setHeader(headerKey,headerValue);
 
         ServletOutputStream servletOutputStream = response.getOutputStream();
-        servletOutputStream.write(p.getAvisExamen());
+        servletOutputStream.write(p.getPlanningExamen());
         servletOutputStream.close();
     }
 
@@ -82,14 +80,31 @@ public class PlannigExamenRestController {
         planningExamenRepository.save(p);
     }
 
-    @PostMapping("/modifierPlanning")
-    public PlanningExamen editPlanning(@RequestParam Long id, @RequestBody PlanningExamen planningExamen){
+    @PutMapping("/updateAvis/{id}")
+    public void updateAvis(@PathVariable("id") Long id, @RequestParam("avisExam") MultipartFile avisExam) throws IOException {
+        PlanningExamen p = planningExamenRepository.findById(id).get();
+        p.setAvisExamen(avisExam.getBytes());
+        planningExamenRepository.save(p);
+    }
+
+    @PutMapping("/updatePlanning/{id}")
+    public void updatePlanning(@PathVariable("id") Long id, @RequestParam("planningExam") MultipartFile planningExam) throws IOException {
+        PlanningExamen p = planningExamenRepository.findById(id).get();
+        p.setPlanningExamen(planningExam.getBytes());
+        planningExamenRepository.save(p);
+    }
+
+    @PutMapping("/modifierPlanning")
+    public PlanningExamen editPlanning(@RequestBody PlanningExamen planningExamen){
+        PlanningExamen p = planningExamenRepository.findById(planningExamen.getId()).get();
+        planningExamen.setAvisExamen(p.getAvisExamen());
+        planningExamen.setPlanningExamen(p.getPlanningExamen());
         return planningExamenRepository.save(planningExamen);
     }
 
     @DeleteMapping("/supprimerPlanning/{id}")
     public void deletPlanningExamen(@PathVariable Long id){
-        examenRestClient.deleteExamensByPlanningId(id);
+        //examenRestClient.deleteExamensByPlanningId(id);
         planningExamenRepository.deleteById(id);
     }
 }
