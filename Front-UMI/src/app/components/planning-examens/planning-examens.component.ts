@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, Output} from '@angular/core';
 import {PlanningExamen} from "../../models/planning-examen";
 import {PlanningExamenService} from "../../services/planning-examen.service";
 import {AnneeUniversitaireService} from "../../services/annee-universitaire.service";

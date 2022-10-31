@@ -16,6 +16,9 @@ import { JournalistesComponent } from './components/Journal/journalistes/journal
 import { ArticlesComponent } from './components/Journal/articles/articles.component';
 import { ExamensComponent } from './components/planning-examens/examens/examens.component';
 import { DepartementsComponent } from './components/etablissements/departements/departements.component';
+import {CheckExistValidatorDirective} from "./directives/CheckExistValidator.directive";
+import {NumberValidatorDirective} from "./directives/number-validator.directive";
+import {FileCheckValidatorDirective} from "./directives/FileCheckValidator.directive";
 
 
 @NgModule({
@@ -31,7 +34,10 @@ import { DepartementsComponent } from './components/etablissements/departements/
     JournalistesComponent,
     ArticlesComponent,
     ExamensComponent,
-    DepartementsComponent
+    DepartementsComponent,
+    CheckExistValidatorDirective,
+    NumberValidatorDirective,
+    FileCheckValidatorDirective
   ],
   imports: [
     BrowserModule,

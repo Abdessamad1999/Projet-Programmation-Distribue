@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Etablissement} from "../../models/etablissement";
 import {EtablissementService} from "../../services/etablissement.service";
 import {map} from "rxjs";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-etablissements',
@@ -37,12 +38,13 @@ export class EtablissementsComponent implements OnInit {
     this.editForm = false;
   }
 
-  persistEtablissement(){
+  persistEtablissement(etabForm:NgForm){
     this.etablissementService.persistEtablissement(this.etablissement,this.logo)
       .subscribe(etablissement=>{
         this.etablissements = [etablissement,...this.etablissements];
-        this.etablissement = {};
       });
+    etabForm.reset();
+    this.etablissement = {};
   }
 
   editEtablissement(etablissement:Etablissement){

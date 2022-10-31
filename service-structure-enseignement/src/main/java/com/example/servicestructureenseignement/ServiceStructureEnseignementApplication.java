@@ -1,7 +1,7 @@
 package com.example.servicestructureenseignement;
 
 import com.example.servicestructureenseignement.etities.Filiere;
-import com.example.servicestructureenseignement.fiegn.ModuleRestClient;
+//import com.example.servicestructureenseignement.fiegn.ModuleRestClient;
 import com.example.servicestructureenseignement.repositories.FiliereRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 
 @SpringBootApplication
-@EnableFeignClients
+//@EnableFeignClients
 public class ServiceStructureEnseignementApplication {
 
     public static void main(String[] args) {

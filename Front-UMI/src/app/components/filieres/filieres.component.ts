@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit} from '@angular/core';
 import {Filiere} from "../../models/filiere";
 import {FiliereService} from "../../services/filiere.service";
 import {ActivatedRoute} from "@angular/router";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-filieres',
@@ -53,7 +54,8 @@ export class FilieresComponent implements OnInit {
     this.id = id;
   }
 
-  addFiliere(){
+  addFiliere(filiereForm:NgForm){
+    //filiereForm.resetForm();
     this.filiere = {};
     this.editForm = false;
   }

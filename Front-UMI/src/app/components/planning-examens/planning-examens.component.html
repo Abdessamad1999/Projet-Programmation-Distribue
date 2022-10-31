@@ -61,36 +61,65 @@
   <div class="modal fade" id="PlanningModal" tabindex="-1" aria-labelledby="PlanningModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md">
       <div class="modal-content">
+        <form #planningForm="ngForm">
         <div class="modal-header">
-          <h5 class="modal-title" id="PlanningModalLabel">Nouveau planning</h5>
+          <h5 class="modal-title" id="PlanningModalLabel">
+            <span *ngIf="!editForm">Nouveau planning</span>
+            <span *ngIf="editForm">Modifier planning</span>
+          </h5>
           <button (click)="addPlanning()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="mb-3">
             <label for="nom" class="col-form-label">Nom filiere :</label>
-            <select [(ngModel)]="planningExamen.nomFiliere" class="form-control" aria-label="Default select example" id="nom">
+            <select #nomFiliere="ngModel" [(ngModel)]="planningExamen.nomFiliere" class="form-control" aria-label="Default select example" id="nom" name="nomFilier" required>
               <option class="p-1" *ngFor="let filiere of filieres" value="{{filiere.nomFilier}}">{{filiere.nomFilier}}</option>
             </select>
+            <div class="invalid-feedback">
+              <div  *ngIf="!nomFiliere.valid && (nomFiliere.touched || nomFiliere.dirty)">
+                <div *ngIf="nomFiliere.errors?.['required']">this champ is required</div>
+              </div>
+            </div>
           </div>
           <div class="mb-3">
             <label for="session" class="col-form-label">Session :</label>
-            <select [(ngModel)]="sessionEdit" (change)="onChange($event)" class="form-control" aria-label="Default select example" id="session">
+            <select #session="ngModel" [(ngModel)]="sessionEdit" (change)="onChange($event)" class="form-control" aria-label="Default select example" id="session" name="session" required>
               <option class="p-1" *ngFor="let session of sessions.sort()" value="{{session}}">Session {{session}}</option>
             </select>
+            <div class="invalid-feedback">
+              <div  *ngIf="!session.valid && (session.touched || session.dirty)">
+                <div *ngIf="session.errors?.['required']">this champ is required</div>
+              </div>
+            </div>
           </div>
           <div class="mb-3">
             <label for="semestres" class="col-form-label">Semestres :</label>
-            <select [(ngModel)]="planningExamen.semestre" class="form-control" aria-label="Default select example" id="semestres">
+            <select #semestre="ngModel" [(ngModel)]="planningExamen.semestre" class="form-control" aria-label="Default select example" id="semestres" name="semestre" required>
               <option class="p-1 text-dark" *ngFor="let semestre of semestres" value="{{semestre.nomSemestre}}">{{semestre.nomSemestre}}</option>
             </select>
+            <div class="invalid-feedback">
+              <div  *ngIf="!semestre.valid && (semestre.touched || semestre.dirty)">
+                <div *ngIf="semestre.errors?.['required']">this champ is required</div>
+              </div>
+            </div>
           </div>
           <div class="mb-3">
             <label for="avis" class="col-form-label">Avis examen :</label>
-            <input (change)="selectAvis($event)" type="file" class="form-control" id="avis">
+            <input ngModel #avis="ngModel" (change)="selectAvis($event)" type="file" class="form-control" id="avis" name="avisFile" [required]="!editForm">
+            <div class="invalid-feedback" >
+              <div  *ngIf="!avis.valid && (avis.touched || avis.dirty)">
+                <div *ngIf="avis.errors?.['required']">this champ is required</div>
+              </div>
+            </div>
           </div>
           <div class="mb-3">
             <label for="planning" class="col-form-label">Planning examen :</label>
-            <input (change)="selectPlanning($event)" type="file" class="form-control" id="planning">
+            <input ngModel #planning="ngModel" (change)="selectPlanning($event)" type="file" class="form-control" id="planning" name="planning" [required]="!editForm">
+            <div class="invalid-feedback">
+              <div  *ngIf="!planning.valid && (planning.touched || planning.dirty)">
+                <div *ngIf="planning.errors?.['required']">this champ is required</div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -98,6 +127,7 @@
           <button *ngIf="!editForm" (click)="persistPlanning()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Ajouter</button>
           <button *ngIf="editForm" (click)="updatePlanning()" type="button" class="btn btn-warning" data-bs-dismiss="modal">Modifier</button>
         </div>
+        </form>
       </div>
     </div>
   </div>

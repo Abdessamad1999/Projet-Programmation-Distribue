@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Collection;
 
-@FeignClient(name = "SERVICE-MODULE")
+//@FeignClient(name = "SERVICE-MODULE")
 
-public interface ModuleRestClient {
-    @GetMapping(path = "/modules/idFiliere/{id}")
-    Collection<Module> getModulesByFilieresId(@PathVariable Long id);
-
-    @PostMapping(path = "/modules/delete/{idF}")
-    void deletModulesByFiliereId(@PathVariable Long idF);
-}
+//public interface ModuleRestClient {
+//    @GetMapping(path = "/modules/idFiliere/{id}")
+//    Collection<Module> getModulesByFilieresId(@PathVariable Long id);
+//
+//    @PostMapping(path = "/modules/delete/{idF}")
+//    void deletModulesByFiliereId(@PathVariable Long idF);
+//}

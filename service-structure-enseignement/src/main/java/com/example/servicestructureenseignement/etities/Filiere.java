@@ -1,10 +1,8 @@
 package com.example.servicestructureenseignement.etities;
 
 import com.example.servicestructureenseignement.models.Module;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Collection;

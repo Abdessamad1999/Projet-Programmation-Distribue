@@ -47,6 +47,7 @@
   <div class="modal fade" id="EtablissementModal" tabindex="-1" aria-labelledby="EtablissemenModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md">
       <div class="modal-content">
+        <form #etabForm="ngForm">
         <div class="modal-header">
           <h5 class="modal-title" id="EtablissemenModalLabel">
             <span *ngIf="!editForm">Nouveau Etablissement</span>
@@ -54,29 +55,58 @@
           </h5>
           <button (click)="addEtablissement()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="nom" class="col-form-label">Nom Etablissement</label>
-            <input [(ngModel)]="etablissement.nomEtablissement" type="text" class="form-control" id="nom">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="nom" class="col-form-label">Nom Etablissement</label>
+              <input ngModel #nom="ngModel" [(ngModel)]="etablissement.nomEtablissement"
+                     minlength="10" [appCheckExist]="[etablissements,'nomEtablissement']" type="text" class="form-control" id="nom" name="nomEtablissement" required>
+              <div class="invalid-feedback">
+                <div  *ngIf="!nom.valid && (nom.touched || nom.dirty)">
+                  <div *ngIf="nom.errors?.['required']">this champ is required</div>
+                  <div *ngIf="nom.errors?.['minlength']">the minimum length should be {{nom.errors?.['minlength'].requiredLength}}</div>
+                  <div *ngIf="nom.errors?.['forbiddenName']">
+                    {{etablissement.nomEtablissement}} déja existe.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="abreviation" class="col-form-label">Abreviation</label>
+              <input ngModel #abreviation="ngModel" [(ngModel)]="etablissement.abreviation"
+                     minlength="2" type="text" class="form-control" id="abreviation" name="abreviation" required>
+              <div class="invalid-feedback">
+                <div *ngIf="!abreviation.valid && abreviation.touched">
+                  <div *ngIf="abreviation.errors?.['required']">this champ is required</div>
+                  <div *ngIf="abreviation.errors?.['minlength']">the minimum length should be {{abreviation.errors?.['minlength'].requiredLength}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="doyen" class="col-form-label">Doyen d'etablissement</label>
+              <input ngModel #doyen="ngModel" [(ngModel)]="etablissement.doyen" type="text" class="form-control" id="doyen" name="doyen" required>
+              <div class="invalid-feedback">
+                <div *ngIf="!doyen.valid && doyen.touched">
+                  <div *ngIf="doyen.errors?.['required']">this champ is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="logo" class="col-form-label">Logo Etablissement</label>
+              <input ngModel #logo="ngModel" (change)="selectLogo($event)" type="file" class="form-control" id="logo" name="logo" required>
+              <div class="invalid-feedback">
+                <div *ngIf="!logo.valid && logo.touched">
+                  <div *ngIf="logo.errors?.['required']">this champ is required</div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="abreviation" class="col-form-label">Abreviation</label>
-            <input [(ngModel)]="etablissement.abreviation" type="text" class="form-control" id="abreviation">
+          <div class="modal-footer">
+            <button (click)="addEtablissement()" id="hideModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button *ngIf="!editForm" (click)="persistEtablissement(etabForm)" type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                    [disabled]="!etabForm.form.valid">Ajouter</button>
+            <button *ngIf="editForm" [disabled]="!etabForm.form.valid" (click)="updateEtablissement()" type="button" class="btn btn-warning" data-bs-dismiss="modal">Modifier</button>
           </div>
-          <div class="mb-3">
-            <label for="doyen" class="col-form-label">Doyen d'etablissement</label>
-            <input [(ngModel)]="etablissement.doyen" type="text" class="form-control" id="doyen">
-          </div>
-          <div class="mb-3">
-            <label for="logo" class="col-form-label">Logo Etablissement</label>
-            <input (change)="selectLogo($event)" type="file" class="form-control" id="logo">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button (click)="addEtablissement()" id="hideModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button *ngIf="!editForm" (click)="persistEtablissement()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Ajouter</button>
-          <button *ngIf="editForm" (click)="updateEtablissement()" type="button" class="btn btn-warning" data-bs-dismiss="modal">Modifier</button>
-        </div>
+        </form>
       </div>
     </div>
   </div>
